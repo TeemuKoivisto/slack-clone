@@ -2,12 +2,13 @@ export const CREATE_FORM = "CREATE_FORM";
 export const UPDATE_FORM = "UPDATE_FORM";
 export const REPLACE_FORM = "REPLACE_FORM";
 
-export const createForm = (name, model) => (
+export const createForm = (formname, schema, values) => (
   {
     type: CREATE_FORM,
     payload: {
-      name,
-      model,
+      formname,
+      schema,
+      values,
     },
   }
 );

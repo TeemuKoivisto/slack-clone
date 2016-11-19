@@ -1,57 +1,51 @@
-import { fromJS } from "immutable";
 import {
   CREATE_FORM,
   UPDATE_FORM,
   REPLACE_FORM,
 } from "./validate.actions";
 
-import Schemas from "./validate.schemas";
+import schemas from "./schemas";
 
-const createDefaultValues = (model) => {
-  return Object.keys(Schemas[model]).reduce((previousValue, key, index) => {
-    previousValue[key] = Schemas[model][key].default;
-    return previousValue;
-  }, {});
-};
-
-const INITIAL_STATE = fromJS({
+const INITIAL_STATE = {
   forms: {},
-});
+  /*
+   form: {
+     schema: String,
+     values: Object,
+     errors: Object
+   }
+  */
+}
 
 export default function (state = INITIAL_STATE, action) {
+  let newState;
   switch (action.type) {
     case CREATE_FORM:
-      const defaultValues = createDefaultValues(action.payload.model);
-      // state.forms[action.payload.formname] = {
-      //   model: action.payload.model,
-      //   values: defaultValues,
-      //   errors: {}
-      // };
-      return state.mergeIn(["forms", action.payload.name], fromJS({
-        model: action.payload.model,
-        values: defaultValues,
+      newState = Object.assign({}, state);
+      newState.forms[action.payload.formname] = {
+        schema: action.payload.schema,
+        values: action.payload.values,
         errors: {}
-      }));
+      }
+      return newState;
     case UPDATE_FORM:
       console.log("updating yo ", action)
       // state.forms[action.payload.formname].values[action.payload.field] = action.payload.value;
       // state.forms[action.payload.formname].errors = action.payload.errors;
-      let updatedValue = state;
+      newState = Object.assign({}, state);
       if (action.payload.field) {
-        updatedValue = state.updateIn(["forms", action.payload.formname, "values", action.payload.field], old =>
-          fromJS(action.payload.value)
-        );
+        newState.forms[action.payload.formname].values[action.payload.field] = action.payload.value;
       }
-      return updatedValue.mergeIn(["forms", action.payload.formname, "errors"],
-        fromJS(action.payload.errors)
-      );
+      Object.keys(action.payload.errors).map(key => {
+        newState.forms[action.payload.formname].errors[key] = action.payload.errors[key];
+      })
+      // console.log(newState.forms[action.payload.formname].errors)
+      return newState;
     case REPLACE_FORM:
-      const replacedForm = state.mergeIn(["forms", action.payload.formname, "values"],
-        fromJS(action.payload.values)
-      );
-      return replacedForm.mergeIn(["forms", action.payload.formname, "errors"],
-        fromJS(action.payload.errors)
-      );
+      newState = Object.assign({}, state);
+      newState.forms[action.payload.formname].values = action.payload.values;
+      newState.forms[action.payload.formname].errors = action.payload.errors;
+      return newState;
     default:
       return state;
   }

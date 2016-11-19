@@ -29,6 +29,7 @@ export class Login extends React.Component {
     const { loading } = this.props;
     console.log("rendering, props: ", this.props)
     const { email, password } = this.props.form.values;
+    const { errors } = this.props.form;
     return (
       <form className="ui middle aligned center aligned grid" onSubmit={this.handleSubmit.bind(this)}>
         <div className="ui">
@@ -45,6 +46,7 @@ export class Login extends React.Component {
                     onChange={this.handleChange.bind(this, "email")}
                   />
                 </div>
+                <div>{ errors.email ? errors.email.map((err, index) => <div key={index}>{err}</div>) : <span></span> }</div>
               </div>
               <div className="field error">
                 <div className="ui left icon input">
@@ -57,6 +59,7 @@ export class Login extends React.Component {
                     onChange={this.handleChange.bind(this, "password")}
                   />
                 </div>
+                <div>{ errors.password ? errors.password.map((err, index) => <div key={index}>{err}</div>) : <span></span> }</div>
               </div>
             </div>
             { loading ?
@@ -90,7 +93,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Login);
 
-import createForm from "../../react-form-validate/CreateForm";
+import createForm from "react-form-validate/CreateForm";
 
 // const LoginWithForm = createForm({
 //   form: "loginForm",
@@ -100,6 +103,6 @@ import createForm from "../../react-form-validate/CreateForm";
 // export default connect(mapStateToProps, mapDispatchToProps)(LoginWithForm)
 
 export default createForm({
-  form: "loginForm",
-  model: "loginUser",
+  name: "loginForm",
+  schema: "userLogin",
 })(connect(mapStateToProps, mapDispatchToProps)(Login))

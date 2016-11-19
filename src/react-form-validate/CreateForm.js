@@ -3,9 +3,9 @@ import { Component, PropTypes, createElement } from "react";
 
 export default function connect(formOptions) {
 
-  if (!formOptions || !formOptions.form) {
-    throw new TypeError("No form passed to createForm");
-  }
+  if (!formOptions) throw new TypeError("No formOptions passed to createForm");
+  if (!formOptions.name) throw new TypeError("No name passed to createForm");
+  if (!formOptions.schema) throw new TypeError("No schema passed to createForm");
 
   // function computeMergedProps(stateProps, dispatchProps, parentProps) {
   //   const mergedProps = finalMergeProps(stateProps, dispatchProps, parentProps)
@@ -20,10 +20,12 @@ export default function connect(formOptions) {
     return class CreateForm extends Component {
       constructor() {
         super();
+        const form = Validate.createForm(formOptions.name, formOptions.schema);
+        if (!form)  throw new TypeError(`No schema could be found with a name '${formOptions.schema}'.`);
         this.formProps = {
-          form: Validate.createForm("loginForm", "loginUser"),
-          isFormValid: () => Validate.isFormValid("loginForm"),
-          updateForm: (field, value) => Validate.updateForm("loginForm", field, value),
+          form,
+          isFormValid: () => Validate.isFormValid(formOptions.name),
+          updateForm: (field, value) => Validate.updateForm(formOptions.name, field, value),
         }
       }
 
@@ -44,9 +46,11 @@ export default function connect(formOptions) {
 
       componentWillMount() {
         const self = this;
-        Validate.subscribeToForm("loginForm", "xx", (loginForm) => {
+        Validate.subscribeToForm(formOptions.name, "xx", (loginForm) => {
           console.log("setting state")
-          self.formProps = Object.assign(this.formProps, { form: loginForm});
+          console.log(loginForm)
+          self.formProps = Object.assign({}, self.formProps, { form: loginForm });
+          console.log(self.formProps)
           self.setState({});
         });
       }

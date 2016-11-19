@@ -20,28 +20,28 @@ class Validate {
   }
 
   getForms() {
-    return this.state.get("forms").toJS();
+    return this.state.forms;
   }
 
   getForm(formname) {
-    return this.state.get("forms").toJS()[formname];
+    return this.state.forms[formname];
   }
 
-  getFormValues(formname) {
-    return this.state.get("forms").toJS()[formname].values;
-  }
-
-  getFormField(formname, field) {
-    return this.state.get("forms").toJS()[formname].values[field];
-  }
-
-  getFormErrors(formname) {
-    return this.state.get("forms").toJS()[formname].errors;
-  }
-
-  getFieldErrors(formname, model, field) {
-    return this.state.get("forms").toJS()[formname].errors[`${model}_${field}`];
-  }
+  // getFormValues(formname) {
+  //   return this.state.get("forms").toJS()[formname].values;
+  // }
+  //
+  // getFormField(formname, field) {
+  //   return this.state.get("forms").toJS()[formname].values[field];
+  // }
+  //
+  // getFormErrors(formname) {
+  //   return this.state.get("forms").toJS()[formname].errors;
+  // }
+  //
+  // getFieldErrors(formname, schema, field) {
+  //   return this.state.get("forms").toJS()[formname].errors[`${schema}_${field}`];
+  // }
 
   subscribeToForm(formname, subscriber, update) {
     const subscription = {
@@ -59,13 +59,13 @@ class Validate {
     });
   }
 
-  createForm(name, model) {
-    this.state = reducer(this.state, createForm(name, model));
-    return this.getForm(name);
-  }
-
-  resetForm(formname) {
-
+  createForm(formname, schema) {
+    const form = this.getForm(formname);
+    if (!form) {
+      const values = Core.createForm(formname, schema);
+      this.state = reducer(this.state, createForm(formname, schema, values));
+    }
+    return this.getForm(formname);
   }
 
   replaceForm(formname, newValues) {
@@ -78,45 +78,34 @@ class Validate {
 
   updateForm(formname, field, value) {
     const form = this.getForm(formname);
-    const errors = Core.validateField(form.values, form.model, field, value);
+    const errors = Core.validateField(form.values, form.schema, field, value);
     this._reduce(formname, updateForm(formname, field, value, errors));
   }
 
   isFormValid(formname) {
     const form = this.getForm(formname);
     if (form) {
-      const errors = Core.validateForm(form.values, form.model);
-      this._reduce(formname, updateForm(formname, "", "", errors));
+      const result = Core.validateForm(form.values, form.schema);
+      this._reduce(formname, replaceForm(formname, form.values, result.errorObj));
       // console.log(errors);
-      const count = Object.keys(errors).reduce((previousValue, key) => {
-        return previousValue + errors[key].length;
-      }, 0);
-      return count === 0;
+      return result.valid;
     } else {
       return false;
     }
   }
 
-  validateDataToModel(data, model) {
-    const form = {
-      model,
-      values: data,
-      errors: {
-        obj: {},
-        list: [],
-      }
-    };
-    const errors = Core.validateForm(form);
-    return errors;
-  }
-
-  setCustomRules(customRules) {
-    // Core.setCustomRules(customRules);
-  }
-
-  addSchemas(schemas) {
-    Core.addSchemas(schemas);
-  }
+  // validateDataToModel(data, model) {
+  //   const form = {
+  //     model,
+  //     values: data,
+  //     errors: {
+  //       obj: {},
+  //       list: [],
+  //     }
+  //   };
+  //   const errors = Core.validateForm(form);
+  //   return errors;
+  // }
 }
 
 export default new Validate();
