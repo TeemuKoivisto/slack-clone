@@ -4,10 +4,10 @@ import persistState from "redux-localstorage";
 
 import thunk from "redux-thunk";
 
-import logger from "./middleware/logger";
-import { handleRequest } from "./middleware/apiMiddleware";
+import logger from "middleware/logger";
+import { handleRequest } from "middleware/api";
 
-import reducers from "./state";
+import reducers from "state";
 
 const combinedReducers = combineReducers(reducers);
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
 
-import NavBar from "../ui/NavBar";
+import NavBar from "components/ui/NavBar";
 
 export default class App extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { browserHistory } from "react-router";
-import Validate from "../../react-form-validate/Validate";
+import Validate from "react-form-validate/Validate";
 
 export class Login extends React.Component {
   // constructor() {
