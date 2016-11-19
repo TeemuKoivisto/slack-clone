@@ -39,6 +39,7 @@ export default function (state = INITIAL_STATE, action) {
       })
       return newState;
     case REPLACE_FORM:
+      // console.log(action)
       newState = Object.assign({}, state);
       newState.forms[action.payload.formname].values = action.payload.values;
       newState.forms[action.payload.formname].errors = action.payload.errors;

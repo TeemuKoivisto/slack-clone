@@ -20,6 +20,7 @@ export class Login extends React.Component {
     const { loading } = this.props;
     // console.log("rendering, props: ", this.props)
     const { email, password } = this.props.form.values;
+    // console.log(this.props.form.values)
     const { errors } = this.props.form;
     return (
       <form className="ui middle aligned center aligned grid" onSubmit={this.handleSubmit.bind(this)}>
