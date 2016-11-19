@@ -41,6 +41,7 @@
     "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.1.0",
     "sass-loader": "^4.0.2",
+    "schema-inspector": "^1.6.5",
     "style-loader": "^0.13.1",
     "validator": "^6.0.0",
     "webpack": "^1.13.2"

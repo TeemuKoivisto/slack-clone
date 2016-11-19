@@ -29,17 +29,14 @@ export default function (state = INITIAL_STATE, action) {
       }
       return newState;
     case UPDATE_FORM:
-      console.log("updating yo ", action)
-      // state.forms[action.payload.formname].values[action.payload.field] = action.payload.value;
-      // state.forms[action.payload.formname].errors = action.payload.errors;
-      newState = Object.assign({}, state);
+      // console.log("updating yo ", action)
+      let newState = Object.assign({}, state);
       if (action.payload.field) {
         newState.forms[action.payload.formname].values[action.payload.field] = action.payload.value;
       }
       Object.keys(action.payload.errors).map(key => {
         newState.forms[action.payload.formname].errors[key] = action.payload.errors[key];
       })
-      // console.log(newState.forms[action.payload.formname].errors)
       return newState;
     case REPLACE_FORM:
       newState = Object.assign({}, state);

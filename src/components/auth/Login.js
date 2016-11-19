@@ -1,25 +1,16 @@
 import React from "react";
 import { browserHistory } from "react-router";
-import Validate from "react-form-validate/Validate";
 
 export class Login extends React.Component {
-  // constructor() {
-  //   super();
-  //   Validate.createForm("loginForm", "loginUser");
-  // }
+
   handleChange(name, event) {
     event.preventDefault();
-    // console.log(Validate.getForm("loginForm"))
-    // console.log(Validate.getFormField("loginForm", "email"))
     this.props.updateForm(name, event.target.value);
-    // console.log("dem props", this.props)
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    // if (Validate.isFormValid("loginForm")) {
     if (this.props.isFormValid()) {
-      // const { email, password } = Validate.getFormValues("loginForm");
       const { email, password } = this.props.form.values;
       this.props.loginUser(email, password);
     }
@@ -27,7 +18,7 @@ export class Login extends React.Component {
 
   render() {
     const { loading } = this.props;
-    console.log("rendering, props: ", this.props)
+    // console.log("rendering, props: ", this.props)
     const { email, password } = this.props.form.values;
     const { errors } = this.props.form;
     return (

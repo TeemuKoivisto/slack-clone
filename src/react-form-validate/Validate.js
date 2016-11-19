@@ -19,12 +19,15 @@ class Validate {
     });
   }
 
-  getForms() {
-    return this.state.forms;
-  }
+  // getForms() {
+  //   return Object.assign({}, this.state.forms);
+  //   return this.state.forms;
+  // }
 
   getForm(formname) {
-    return this.state.forms[formname];
+    // return this.state.forms[formname];
+    // apparently my state is not being remade anymore?
+    return this.state.forms[formname] ? Object.assign({}, this.state.forms[formname]) : undefined;
   }
 
   // getFormValues(formname) {

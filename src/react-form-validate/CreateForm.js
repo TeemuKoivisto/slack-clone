@@ -26,6 +26,7 @@ export default function connect(formOptions) {
           form,
           isFormValid: () => Validate.isFormValid(formOptions.name),
           updateForm: (field, value) => Validate.updateForm(formOptions.name, field, value),
+          getForm: () => Validate.updateForm(formOptions.name),
         }
       }
 
@@ -45,18 +46,14 @@ export default function connect(formOptions) {
       // }
 
       componentWillMount() {
-        const self = this;
-        Validate.subscribeToForm(formOptions.name, "xx", (loginForm) => {
-          console.log("setting state")
-          console.log(loginForm)
-          self.formProps = Object.assign({}, self.formProps, { form: loginForm });
-          console.log(self.formProps)
-          self.setState({});
+        Validate.subscribeToForm(formOptions.name, this, (loginForm) => {
+          this.formProps = Object.assign({}, this.formProps, { form: loginForm });
+          this.setState({});
         });
       }
 
       componentWillUnmount() {
-        Validate.unsubscribe("xx");
+        Validate.unsubscribe(this);
       }
 
       render() {
