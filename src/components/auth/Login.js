@@ -68,7 +68,7 @@ export class Login extends React.Component {
 
 import { connect } from "react-redux";
 
-import { loginUser } from "state/auth/auth.actions";
+import { loginUser } from "actions/auth";
 
 const mapStateToProps = (state) => {
   return {

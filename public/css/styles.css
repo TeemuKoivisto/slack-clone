@@ -1,0 +1,73 @@
+/* Globals */
+ul {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+li {
+  list-style: none;
+}
+
+.main-container {
+  margin: 65px 0 0 15px;
+}
+
+.m-top {
+  margin-top: 15px;
+}
+
+.chat-container div {
+  border: 1px solid black;
+}
+
+/*
+  There should be three sizes?
+  1) Mobile which is under 500px width etc? dynamically fits to the size of the screen? different ordering of elements?
+  2) Tablet which is something something and has touch handlers
+  3) Desktop which should have two versions, half page and full page? idk this is weird
+*/
+
+.chat-container-top {
+  width: 800px;
+}
+
+.chat-container-middle {
+  display: flex;
+  flex-direction: row;
+  width: 800px;
+}
+
+.chat-container-bottom {
+  width: 800px;
+}
+
+.chat-rooms {
+  width: 200px;
+}
+
+.chat-area {
+  width: 400px
+}
+
+div.chat-area-messages {
+  width: inherit;
+  height: 400px;
+  resize: none;
+}
+
+.chat-message-time {
+  margin: 0 2px 0 0;
+}
+
+.chat-message-author {
+  margin: 0 2px 0 0;
+  color: red;
+}
+
+input.chat-area-input {
+  width: inherit;
+}
+
+.chat-users {
+  width: 200px;
+}

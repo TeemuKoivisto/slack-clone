@@ -96,7 +96,7 @@ export class NavBar extends React.Component {
 
 import { connect } from "react-redux";
 
-import { logout } from "state/auth/auth.actions";
+import { logout } from "actions/auth";
 
 const mapStateToProps = (state) => {
   return {

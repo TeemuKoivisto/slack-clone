@@ -34,7 +34,7 @@ class ValidateCore {
     const validation = _.get(this.schemas, schema);
     if (validation) {
       const result = inspector.validate(validation, values);
-      console.log(result);
+      // console.log(result);
       const asObject = result.error.reduce((previousValue, current) => {
         // cut '@.' from the beginning
         const property = current.property.substring(2);
@@ -42,7 +42,7 @@ class ValidateCore {
         previousValue[property].push(current.message);
         return previousValue;
       }, {});
-      console.log(asObject)
+      // console.log(asObject)
       result.errorObj = asObject;
       return result;
     }
@@ -54,7 +54,7 @@ class ValidateCore {
     const validation = _.get(this.schemas, `${schema}.properties.${field}`);
     if (validation) {
       const result = inspector.validate(validation, value);
-      console.log(result);
+      // console.log(result);
       const obj = {};
       obj[field] = result.error.map(err => err.message);
       return obj;

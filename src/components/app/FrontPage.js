@@ -26,10 +26,11 @@ export default class FrontPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>This is the front page of MyApp!</h1>
-        <p>It is nested inside App-component and it looks cool :D. Well not really.</p>
-        <p>easdfassssssssssssss</p>
+      <div id="front-page">
+        <section>
+          <h1>The front page of MyApp!</h1>
+          <p>It is nested inside App-component and it looks cool :D. Well not really.</p>
+        </section>
       </div>
     );
   }
