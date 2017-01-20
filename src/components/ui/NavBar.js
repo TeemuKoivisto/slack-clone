@@ -37,6 +37,10 @@ export class NavBar extends React.Component {
               <li>
                 <Link to="/user/me">Me</Link>
               </li>
+
+              <li>
+                <Link to="/chat">Chat</Link>
+              </li>
             </ul>
 
             <ul className="nav navbar-nav navbar-right">
@@ -65,11 +69,41 @@ export class NavBar extends React.Component {
   renderAdminNav() {
     const { user } = this.props;
     return (
-      <div className="ui horizontal pointing menu">
-        <Link className="item" to="/">FrontPage</Link>
-        <Link className="item" to="/user/me">{ user.firstname }</Link>
-        <Link className="item" to="/user">All users</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
+      <div className="navbar navbar-inverse navbar-fixed-top pohina-pad" id="navbar">
+        <div className="container">
+          <div className="navbar-header">
+            <Link to="/">
+              <img className="pohina-navbar-logo" src="img/elo_logo.png" />
+            </Link>
+            <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+            </button>
+          </div>
+          <div className="navbar-collapse collapse" id="navbar-main">
+            <ul className="nav navbar-nav">
+              <li>
+                <Link to="/">Frontpage</Link>
+              </li>
+
+              <li>
+                <Link to="/user/me">{ user.firstname }</Link>
+              </li>
+
+              <li>
+                <Link to="/chat">Chat</Link>
+              </li>
+            </ul>
+
+            <ul className="nav navbar-nav navbar-right">
+              <li>
+                <a className="item" onClick={ this.handleLogout }>Logout</a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
       </div>
     );
   }

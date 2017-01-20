@@ -9,6 +9,7 @@ import NotFound from "components/app/NotFound";
 
 import UserShow from "components/user/UserShow";
 // import UserList from "./user/UserList";
+import ChatContainer from "components/chat/ChatContainer";
 import Login from "components/auth/Login";
 // import Registration from "./auth/Registration";
 
@@ -18,6 +19,7 @@ export default (
       <Route path="/" component={FrontPage} />
       <Route path="/user/me" component={UserShow} onEnter={redirectNonUser} />
       {/*<Route path="user" component={UserList} onEnter={redirectNonAdmin} />*/}
+      <Route path="/chat" component={ChatContainer} onEnter={redirectNonUser} />
       <Route path="/login" component={Login} />
       {/*<Route path="register" component={Registration} />*/}
       <Route path="*" component={NotFound}/>

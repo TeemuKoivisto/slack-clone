@@ -1,35 +1,28 @@
 import React from "react";
 import { Link } from "react-router";
+import AnonLogin from "components/auth/AnonLogin";
+import GoogleOauth from "components/auth/GoogleOauth";
 
 export default class FrontPage extends React.Component {
 
-  renderOwlDots() {
-    return(
-      <div className="owl-dots" style="">
-        <div className="owl-dot">
-          <span></span>
-        </div>
-        <div className="owl-dot">
-          <span></span>
-        </div>
-        <div className="owl-dot">
-          <span></span>
-        </div>
-        <div className="owl-dot">
-          <span></span></div>
-        <div className="owl-dot active">
-          <span></span>
-        </div>
-      </div>
-    );
+  handleChange(type, event) {
+
+  }
+
+  handleClick(type, event) {
+
   }
 
   render() {
     return (
       <div id="front-page">
         <section>
-          <h1>The front page of MyApp!</h1>
-          <p>It is nested inside App-component and it looks cool :D. Well not really.</p>
+          <h1>Craziest slack clone!</h1>
+          <p>With the gayest functionality.</p>
+        </section>
+        <section>
+          <AnonLogin></AnonLogin>
+          <GoogleOauth></GoogleOauth>
         </section>
       </div>
     );

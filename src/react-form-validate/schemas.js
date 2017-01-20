@@ -17,6 +17,12 @@
 // };
 
 const validations = {
+  anonLogin: {
+    type: "object",
+    properties: {
+      nick: { type: "string", minLength: 1, maxlength: 16, error: "Nick has to be between 1 and 16 characters." },
+    }
+  },
   userLogin: {
     type: "object",
     properties: {
@@ -33,6 +39,12 @@ const validations = {
       password: { type: "string", minLength: 8 },
     }
   },
+  messageSave: {
+    type: "object",
+    properties: {
+      content: { type: "string", minLength: 1, maxlength: 1023 },
+    }
+  }
 };
 
 // module.exports = {
