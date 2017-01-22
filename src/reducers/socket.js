@@ -9,8 +9,9 @@ export default function (state = INITIAL_STATE, action) {
       return Object.assign({}, state, {
         socket: action.payload.socket,
       })
-    case "UNSET_SOCKET":
-      return state;
+    case "DISCONNECT_SOCKET":
+      state.socket.disconnect();
+      return INITIAL_STATE;
     default:
       return state;
   }

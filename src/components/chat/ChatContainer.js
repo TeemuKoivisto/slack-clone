@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 export class ChatContainer extends React.Component {
 
@@ -16,16 +17,30 @@ export class ChatContainer extends React.Component {
     if (target.charCode === 13 && this.props.isFormValid("chatMessageForm")) {
       console.log("yee", this.props.form)
       // add current user to the payload? also the chat-room id?
-      this.props.saveMessage(this.props.form.values);
+      console.log(this.props.user)
+      const msg = this.props.form.values;
+      msg.User = this.props.user._id;
+      msg.authorNick = this.props.user.nick;
+      msg.Room = this.props.currentRoom._id;
+      this.props.saveMessage(msg);
     }
   }
 
-  handleClick(name, event) {
+  handleClick(name, index, event) {
+    if (name === "selectRoom") {
+      console.log(index)
+      this.props.selectRoom({
+        _id: index
+      })
+    }
     this.props.getMessages();
   }
 
   render() {
-    const { messages } = this.props;
+    const { currentRoom, rooms } = this.props;
+    const messages = currentRoom.messages ? currentRoom.messages : [];
+    console.log(currentRoom)
+    // console.log(currentRoom._id === rooms[0]._id)
     return (
       <div>
         <div className="chat-container">
@@ -35,9 +50,14 @@ export class ChatContainer extends React.Component {
           <div className="chat-container-middle">
             <div className="chat-rooms">
               <ul>
-                <li>room 1</li>
-                <li>room 2</li>
-                <li>room 3</li>
+                { rooms.map(room =>
+                  <li key={room._id}
+                    className={ currentRoom._id === room._id ? "selected-room" : "unselected-room"}
+                    onClick={this.handleClick.bind(this, "selectRoom", room._id)}
+                  >
+                    { room.name }
+                  </li>
+                )}
               </ul>
             </div>
             <div className="chat-area">
@@ -45,8 +65,8 @@ export class ChatContainer extends React.Component {
                 <ul>
                   { messages.map(msg =>
                     <li className="chat-area-message" key={msg._id}>
-                      <span className="chat-message-time">{ `${msg.created}`}</span>
-                      <span className="chat-message-author">{ `$msg.user.name}:`}</span>
+                      <span className="chat-message-time">{ `${moment(msg.created).format("HH:mm")}`}</span>
+                      <span className="chat-message-author">{ `${msg.authorNick}:`}</span>
                       <span className="chat-message-content">{ `${msg.content}` }</span>
                     </li>
                   )}
@@ -77,12 +97,14 @@ export class ChatContainer extends React.Component {
 
 import { connect } from "react-redux";
 import createForm from "react-form-validate/CreateForm";
+import { selectRoom } from "actions/room";
 import { getMessages, saveMessage } from "actions/message";
 
 const mapStateToProps = (state) => {
   return {
-    // user: state.auth.user,
-    // room: state.room.current,
+    user: state.auth.user,
+    currentRoom: state.room.get("currentRoom"),
+    rooms: state.room.get("rooms"),
     messages: state.message.messages,
   };
 };
@@ -94,6 +116,9 @@ const mapDispatchToProps = (dispatch) => ({
   saveMessage(data) {
     dispatch(saveMessage(data));
   },
+  selectRoom(data) {
+    dispatch(selectRoom(data));
+  }
 });
 
 export default createForm({

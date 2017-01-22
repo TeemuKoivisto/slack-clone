@@ -1,6 +1,8 @@
 
 import io from "socket.io-client";
 
+import { selectRoom, getRooms } from "actions/room";
+
 export const connectToSocket = () => {
   console.log("lol")
   return (dispatch, getState) => {
@@ -24,6 +26,10 @@ export const connectToSocket = () => {
 
     socket.on('connect', function(){
       console.log("connected")
+      dispatch(getRooms());
+      dispatch(selectRoom({
+        name: "main-lobby"
+      }));
     });
 
     socket.on('server:push', function(data){
@@ -47,5 +53,11 @@ export const setSocket = (socket) => (
     payload: {
       socket,
     }
+  }
+)
+
+export const disconnectSocket = (socket) => (
+  {
+    type: "DISCONNECT_SOCKET",
   }
 )

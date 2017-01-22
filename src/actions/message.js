@@ -6,7 +6,7 @@ export const getMessages = () => (
   {
     type: MESSAGE_GET_ALL,
     payload: {
-      socket: {
+      socketio: {
         data: {}
       }
     }
@@ -17,7 +17,7 @@ export const saveMessage = (data) => (
   {
     type: MESSAGE_SAVE_ONE,
     payload: {
-      socket: {
+      socketio: {
         data,
       }
     }

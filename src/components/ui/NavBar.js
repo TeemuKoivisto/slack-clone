@@ -131,6 +131,7 @@ export class NavBar extends React.Component {
 import { connect } from "react-redux";
 
 import { logout } from "actions/auth";
+import { disconnectSocket } from "actions/socket";
 
 const mapStateToProps = (state) => {
   return {
@@ -140,6 +141,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   logout() {
+    dispatch(disconnectSocket());
     dispatch(logout());
   },
 });

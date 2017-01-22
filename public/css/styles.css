@@ -45,6 +45,10 @@ li {
   width: 200px;
 }
 
+.selected-room {
+  background-color: red;
+}
+
 .chat-area {
   width: 400px
 }
