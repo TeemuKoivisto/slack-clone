@@ -26,8 +26,8 @@ export const connectToSocket = () => {
       console.log("connected")
     });
 
-    socket.on('server-update', function(data){
-      console.log("yo event", data)
+    socket.on('server:push', function(data){
+      console.log("gotcha server:push", data)
       data.map(action => {
         dispatch(action)
       })

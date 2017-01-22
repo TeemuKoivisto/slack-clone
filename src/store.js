@@ -6,6 +6,7 @@ import thunk from "redux-thunk";
 
 import logger from "middleware/logger";
 import { handleRequest } from "middleware/api";
+import { handleEmit } from "middleware/socket-io";
 
 import reducers from "reducers";
 
@@ -18,7 +19,7 @@ const rootReducer = (state, action) => {
   return combinedReducers(state, action);
 };
 
-const createStoreWithMiddleware = applyMiddleware(thunk, handleRequest, logger)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk, handleRequest, handleEmit, logger)(createStore);
 const createPersistentStore = compose(
   persistState(["auth"])
 )(createStoreWithMiddleware);

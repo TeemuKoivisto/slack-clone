@@ -14,10 +14,14 @@ export class ChatContainer extends React.Component {
     // if enter
     console.log("yo")
     if (target.charCode === 13 && this.props.isFormValid("chatMessageForm")) {
-      console.log("yee")
+      console.log("yee", this.props.form)
       // add current user to the payload? also the chat-room id?
-      this.props.saveMessage(this.props.getForm("chatMessageForm").values);
+      this.props.saveMessage(this.props.form.values);
     }
+  }
+
+  handleClick(name, event) {
+    this.props.getMessages();
   }
 
   render() {
@@ -40,9 +44,9 @@ export class ChatContainer extends React.Component {
               <div className="chat-area-messages">
                 <ul>
                   { messages.map(msg =>
-                    <li className="chat-area-message" key={msg.id}>
-                      <span className="chat-message-time">{ `${msg.created.getHours()}:${msg.created.getMinutes()}`}</span>
-                      <span className="chat-message-author">{ `${msg.user.name}:`}</span>
+                    <li className="chat-area-message" key={msg._id}>
+                      <span className="chat-message-time">{ `${msg.created}`}</span>
+                      <span className="chat-message-author">{ `$msg.user.name}:`}</span>
                       <span className="chat-message-content">{ `${msg.content}` }</span>
                     </li>
                   )}
@@ -63,6 +67,7 @@ export class ChatContainer extends React.Component {
           </div>
           <div className="chat-container-bottom">
             <p>some cool features here</p>
+            <button onClick={this.handleClick.bind(this, "msg")}>Get</button>
           </div>
         </div>
       </div>
@@ -72,7 +77,7 @@ export class ChatContainer extends React.Component {
 
 import { connect } from "react-redux";
 import createForm from "react-form-validate/CreateForm";
-import { saveMessage } from "actions/message";
+import { getMessages, saveMessage } from "actions/message";
 
 const mapStateToProps = (state) => {
   return {
@@ -83,6 +88,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  getMessages() {
+    dispatch(getMessages());
+  },
   saveMessage(data) {
     dispatch(saveMessage(data));
   },
