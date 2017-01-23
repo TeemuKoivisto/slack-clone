@@ -6,9 +6,7 @@ export const createSocketEmit = (action, store) => {
   const socket = store.getState().socket.socket;
   const request = action.payload.socketio;
 
-  console.log("EMITTING ", action)
   socket.emit("action", { type: action.type, data: request.data });
-  // socket.emit("action", action);
 
   return store.dispatch({
     type: action.type + "_REQUEST",

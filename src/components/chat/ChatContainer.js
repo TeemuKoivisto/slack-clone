@@ -28,7 +28,7 @@ export class ChatContainer extends React.Component {
 
   handleClick(name, index, event) {
     if (name === "selectRoom") {
-      console.log(index)
+      console.log("select room!", index)
       this.props.selectRoom({
         _id: index
       })
@@ -105,7 +105,6 @@ const mapStateToProps = (state) => {
     user: state.auth.user,
     currentRoom: state.room.get("currentRoom"),
     rooms: state.room.get("rooms"),
-    messages: state.message.messages,
   };
 };
 

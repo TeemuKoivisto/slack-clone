@@ -4,14 +4,11 @@ import io from "socket.io-client";
 import { selectRoom, getRooms } from "actions/room";
 
 export const connectToSocket = () => {
-  console.log("lol")
   return (dispatch, getState) => {
     const token = getState().auth.token;
     // const socket = io.connect(process.env.SOCKET_URL);
     const socket = io.connect("http://localhost:8008");
-      console.log("hei")
     socket.on('connect', function () {
-      console.log("hei")
       socket
         .emit('authenticate', { token, }) //send the jwt
         .on('authenticated', function () {
