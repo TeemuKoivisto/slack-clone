@@ -38,7 +38,6 @@ import { connectToSocket } from "actions/socket";
 const mapStateToProps = (state) => {
   return {
     user: state.get("auth").get("user").toJS(),
-    // user: state.get("auth.user"),
   };
 };
 

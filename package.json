@@ -44,7 +44,6 @@
     "redux-thunk": "^2.1.0",
     "sass-loader": "^4.0.2",
     "schema-inspector": "^1.6.5",
-    "scourjs": "^1.0.1",
     "socket.io-client": "^1.7.2",
     "style-loader": "^0.13.1",
     "validator": "^6.0.0",

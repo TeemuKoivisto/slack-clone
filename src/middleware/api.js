@@ -27,22 +27,22 @@ export const createRequest = (action, store) => {
     store.dispatch(newAction);
     return newAction;
   })
-  // .catch(err => {
-  //   let data;
-  //   if (request.responseType === "arraybuffer") {
-  //     const arr = new Uint8Array(err.data);
-  //     const str = String.fromCharCode.apply(String, arr);
-  //     data = JSON.parse(str);
-  //   } else {
-  //     data = err.data;
-  //   }
-  //   const newAction = {
-  //     type: action.type + "_FAIL",
-  //     error: err,
-  //   }
-  //   store.dispatch(newAction);
-  //   return newAction;
-  // });
+  .catch(err => {
+    let data;
+    if (request.responseType === "arraybuffer") {
+      const arr = new Uint8Array(err.data);
+      const str = String.fromCharCode.apply(String, arr);
+      data = JSON.parse(str);
+    } else {
+      data = err.data;
+    }
+    const newAction = {
+      type: action.type + "_FAIL",
+      error: err,
+    }
+    store.dispatch(newAction);
+    return newAction;
+  });
 };
 
 export const handleRequest = store => next => action => {
