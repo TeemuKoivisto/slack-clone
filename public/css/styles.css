@@ -57,6 +57,7 @@ div.chat-area-messages {
   width: inherit;
   height: 400px;
   resize: none;
+  overflow: auto;
 }
 
 .chat-message-time {

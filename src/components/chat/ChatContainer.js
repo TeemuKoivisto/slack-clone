@@ -7,6 +7,24 @@ export class ChatContainer extends React.Component {
     super();
   }
 
+  componentDidMount() {
+    console.log(this.refs)
+    if (this.refs.chatAreaMessages) {
+      const el = this.refs.chatAreaMessages;
+      console.log(el.height)
+      el.scrollTop = el.scrollHeight;
+    }
+  }
+
+  componentDidUpdate() {
+    console.log(this.refs)
+    if (this.refs.chatAreaMessages) {
+      const el = this.refs.chatAreaMessages;
+      console.log(el.height)
+      el.scrollTop = el.scrollHeight;
+    }
+  }
+
   handleChange(name, event) {
     this.props.updateForm(name, event.target.value);
   }
@@ -36,6 +54,11 @@ export class ChatContainer extends React.Component {
     this.props.getMessages();
   }
 
+  setChatScrollBar() {
+    const el = document.getElementById("chat-area-messages");
+    el.scrollTop = 0;
+  }
+
   render() {
     const { currentRoom, rooms } = this.props;
     const messages = rooms.find(room => room._id === currentRoom._id).messages;
@@ -62,7 +85,7 @@ export class ChatContainer extends React.Component {
               </ul>
             </div>
             <div className="chat-area">
-              <div className="chat-area-messages">
+              <div ref="chatAreaMessages" className="chat-area-messages">
                 <ul>
                   { messages.map(msg =>
                     <li className="chat-area-message" key={msg._id}>
