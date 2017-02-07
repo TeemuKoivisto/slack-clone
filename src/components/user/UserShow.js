@@ -46,7 +46,7 @@ import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
   return {
-    User: state.auth.user,
+    User: state.get("auth").get("user").toJS(),
   };
 };
 

@@ -38,7 +38,8 @@ export class ChatContainer extends React.Component {
 
   render() {
     const { currentRoom, rooms } = this.props;
-    const messages = currentRoom.messages ? currentRoom.messages : [];
+    const messages = rooms.find(room => room._id === currentRoom._id).messages;
+    // const messages = currentRoom.messages ? currentRoom.messages : [];
     console.log(currentRoom)
     // console.log(currentRoom._id === rooms[0]._id)
     return (
@@ -102,9 +103,9 @@ import { getMessages, saveMessage } from "actions/message";
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
-    currentRoom: state.room.get("currentRoom"),
-    rooms: state.room.get("rooms"),
+    user: state.get("auth").get("user").toJS(),
+    currentRoom: state.get("room").get("currentRoom").toJS(),
+    rooms: state.get("room").get("rooms").toJS(),
   };
 };
 

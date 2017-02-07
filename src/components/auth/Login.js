@@ -72,8 +72,8 @@ import { loginUser } from "actions/auth";
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.user,
-    loading: state.auth.loading,
+    user: state.get("auth").get("user"),
+    loading: state.get("auth").get("loading"),
   };
 };
 

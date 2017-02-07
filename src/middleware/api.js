@@ -7,7 +7,7 @@ export const createRequest = (action, store) => {
     type: action.type + "_REQUEST",
   });
 
-  const token = store.getState().auth.token;
+  const token = store.getState().get("auth").get("token");
   const request = action.payload.request;
 
   return axios({
@@ -27,22 +27,22 @@ export const createRequest = (action, store) => {
     store.dispatch(newAction);
     return newAction;
   })
-  .catch(err => {
-    let data;
-    if (request.responseType === "arraybuffer") {
-      const arr = new Uint8Array(err.data);
-      const str = String.fromCharCode.apply(String, arr);
-      data = JSON.parse(str);
-    } else {
-      data = err.data;
-    }
-    const newAction = {
-      type: action.type + "_FAIL",
-      error: err,
-    }
-    store.dispatch(newAction);
-    return newAction;
-  });
+  // .catch(err => {
+  //   let data;
+  //   if (request.responseType === "arraybuffer") {
+  //     const arr = new Uint8Array(err.data);
+  //     const str = String.fromCharCode.apply(String, arr);
+  //     data = JSON.parse(str);
+  //   } else {
+  //     data = err.data;
+  //   }
+  //   const newAction = {
+  //     type: action.type + "_FAIL",
+  //     error: err,
+  //   }
+  //   store.dispatch(newAction);
+  //   return newAction;
+  // });
 };
 
 export const handleRequest = store => next => action => {

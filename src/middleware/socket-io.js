@@ -2,8 +2,8 @@
 import io from "socket.io-client";
 
 export const createSocketEmit = (action, store) => {
-  const token = store.getState().auth.token;
-  const socket = store.getState().socket.socket;
+  const token = store.getState().get("auth").get("token");
+  const socket = store.getState().get("socket").socket;
   const request = action.payload.socketio;
 
   socket.emit("action", { type: action.type, data: request.data });
