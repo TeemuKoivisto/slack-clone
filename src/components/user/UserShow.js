@@ -4,13 +4,6 @@ export class UserShow extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-      updateUser: {
-        email: "",
-        firstname: "",
-        lastname: "",
-      }
-    };
   }
 
   render() {

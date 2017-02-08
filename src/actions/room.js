@@ -35,3 +35,14 @@ export const saveRoom = (data) => (
     }
   }
 );
+
+export const joinRoom = (data) => (
+  {
+    type: "ROOM_JOIN_ONE",
+    payload: {
+      socketio: {
+        data,
+      }
+    }
+  }
+);

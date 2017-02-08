@@ -8,19 +8,16 @@ export class ChatContainer extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.refs)
-    if (this.refs.chatAreaMessages) {
-      const el = this.refs.chatAreaMessages;
-      console.log(el.height)
-      el.scrollTop = el.scrollHeight;
-    }
+    this.updateScrollBar();
   }
 
   componentDidUpdate() {
-    console.log(this.refs)
+    this.updateScrollBar();
+  }
+
+  updateScrollBar() {
     if (this.refs.chatAreaMessages) {
       const el = this.refs.chatAreaMessages;
-      console.log(el.height)
       el.scrollTop = el.scrollHeight;
     }
   }
@@ -31,11 +28,10 @@ export class ChatContainer extends React.Component {
 
   handleKeyPress(target) {
     // if enter
-    console.log("yo")
     if (target.charCode === 13 && this.props.isFormValid("chatMessageForm")) {
-      console.log("yee", this.props.form)
+      // console.log("yee", this.props.form)
       // add current user to the payload? also the chat-room id?
-      console.log(this.props.user)
+      // console.log(this.props.user)
       const msg = this.props.form.values;
       msg.User = this.props.user._id;
       msg.authorNick = this.props.user.nick;
@@ -50,20 +46,19 @@ export class ChatContainer extends React.Component {
       this.props.selectRoom({
         _id: index
       })
+    } else if (name === "joinRoom") {
+      this.props.joinRoom({
+        _id: index
+      })
     }
-    this.props.getMessages();
-  }
-
-  setChatScrollBar() {
-    const el = document.getElementById("chat-area-messages");
-    el.scrollTop = 0;
+    // this.props.getMessages();
   }
 
   render() {
     const { currentRoom, rooms } = this.props;
     const messages = rooms.find(room => room._id === currentRoom._id).messages;
     // const messages = currentRoom.messages ? currentRoom.messages : [];
-    console.log(currentRoom)
+    // console.log(currentRoom)
     // console.log(currentRoom._id === rooms[0]._id)
     return (
       <div>
@@ -75,11 +70,14 @@ export class ChatContainer extends React.Component {
             <div className="chat-rooms">
               <ul>
                 { rooms.map(room =>
-                  <li key={room._id}
-                    className={ currentRoom._id === room._id ? "selected-room" : "unselected-room"}
-                    onClick={this.handleClick.bind(this, "selectRoom", room._id)}
-                  >
-                    { room.name }
+                  <li>
+                    <span key={room._id}
+                      className={ currentRoom._id === room._id ? "selected-room" : "unselected-room"}
+                      onClick={this.handleClick.bind(this, "selectRoom", room._id)}
+                    >
+                      { room.name }
+                    </span>
+                    <button onClick={this.handleClick.bind(this, "joinRoom", room._id)}>Join</button>
                   </li>
                 )}
               </ul>
@@ -121,7 +119,7 @@ export class ChatContainer extends React.Component {
 
 import { connect } from "react-redux";
 import createForm from "react-form-validate/CreateForm";
-import { selectRoom } from "actions/room";
+import { selectRoom, joinRoom } from "actions/room";
 import { getMessages, saveMessage } from "actions/message";
 
 const mapStateToProps = (state) => {
@@ -141,6 +139,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   selectRoom(data) {
     dispatch(selectRoom(data));
+  },
+  joinRoom(data) {
+    dispatch(joinRoom(data));
   }
 });
 
