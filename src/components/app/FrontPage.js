@@ -22,6 +22,8 @@ export default class FrontPage extends React.Component {
           <p>With the silliest functionality.</p>
         </section>
         <section>
+          <p>It was built with React+Redux, Node (Express), Socket.io, JWT and MongoDB.</p>
+          <p>Also routing with socket.io inside Express was a huge pain the butt to build.</p>
         </section>
       </div>
     );
