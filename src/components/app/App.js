@@ -9,7 +9,7 @@ export class App extends React.Component {
     // sets logout timer each time the app is mounted aka. window is reloaded
     // if the user is actually logged in
     console.log("yo")
-    if (this.props.user.email) {
+    if (this.props.user.nick) {
       // this.props.setLogoutTimeout();
       this.props.connectToSocket();
     }

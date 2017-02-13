@@ -33,6 +33,31 @@ const loginAction = (email, password) => (
   }
 );
 
+export const loginAnonUser = (data) => {
+  return (dispatch, getState) => {
+    return dispatch(loginAnonAction(data)).then((action) => {
+      if (action.type === "LOGIN_USER_SUCCESS") {
+        dispatch(connectToSocket());
+        browserHistory.push("/user/me");
+      }
+      return action;
+    })
+  };
+}
+
+const loginAnonAction = (data) => (
+  {
+    type: LOGIN_USER,
+    payload: {
+      request: {
+        url: "/login/anon",
+        method: "post",
+        data,
+      }
+    }
+  }
+);
+
 export const logout = () => (
   {
     type: LOGOUT_USER,

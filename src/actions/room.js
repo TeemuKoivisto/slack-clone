@@ -46,3 +46,14 @@ export const joinRoom = (data) => (
     }
   }
 );
+
+export const leaveRoom = (data) => (
+  {
+    type: "ROOM_LEAVE_ONE",
+    payload: {
+      socketio: {
+        data,
+      }
+    }
+  }
+);

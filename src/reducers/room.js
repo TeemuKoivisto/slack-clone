@@ -2,8 +2,7 @@
 import { fromJS } from "immutable";
 
 const INITIAL_STATE = fromJS({
-  currentRoom: {},
-  currentRoomIndex: -1,
+  currentRoomId: null,
   rooms: [],
 });
 
@@ -14,7 +13,7 @@ export default function (state = INITIAL_STATE, action) {
       return state.updateIn(["rooms"], rooms => rooms.map(room => {
         return room.get("_id") === action.payload._id ? fromJS(action.payload) : room;
       }))
-      .set("currentRoom", fromJS(action.payload))
+      .set("currentRoomId", fromJS(action.payload._id))
     case "ROOM_GET_ALL_SUCCESS":
       const roomsUpdated = action.payload.map(room => {
         room.created = new Date(room.created);
@@ -26,6 +25,39 @@ export default function (state = INITIAL_STATE, action) {
     case "ROOM_SAVE_ONE_SUCCESS":
       action.payload.created = new Date(action.payload.created);
       return state.updateIn(["rooms"], rooms => [...rooms, fromJS(action.payload)]);
+    case "ROOM_JOIN_ONE_SUCCESS":
+      return state.updateIn(["rooms"], rooms =>
+        rooms.map(room => {
+          if (room.get("_id") === action.payload.room._id) {
+            return room.updateIn(["users"], users => {
+              // searches for the index where the new messages should be inserted at
+              // to keep the dates in ascending order
+              // returns -1 if in last position
+              const index = users.findIndex(user => user.nick > action.payload.user.nick);
+              console.log("updating users" + index)
+              return index !== -1 ? users.insert(index, fromJS(action.payload.user)) : users.push(fromJS(action.payload.user));
+            });
+          }
+          return room;
+        })
+      );
+    case "ROOM_LEAVE_ONE_SUCCESS":
+      return state.updateIn(["rooms"], rooms =>
+        rooms.map(room => {
+          if (room.get("_id") === action.payload.room._id) {
+            return room.updateIn(["users"], users => {
+              return users.filter(user => {
+                if (user.get("_id") !== action.payload.user._id) {
+                  return user;
+                }
+                console.log("updating users", user)
+                
+              })
+            });
+          }
+          return room;
+        })
+      );
     case "MESSAGE_SAVE_ONE_SUCCESS":
       action.payload.created = new Date(action.payload.created);
       return state.updateIn(["rooms"], rooms =>

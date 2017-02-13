@@ -11,7 +11,7 @@ export class LoginAnon extends React.Component {
     event.preventDefault();
     if (this.props.isFormValid()) {
       const { nick } = this.props.form.values;
-      this.props.loginAnon({
+      this.props.loginAnonUser({
         nick,
       });
     }
@@ -23,7 +23,7 @@ export class LoginAnon extends React.Component {
     const { errors } = this.props.form;
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <h2>Login anonynousmly</h2>
+        <h2>Login anonymously</h2>
         <div>
           <input
             type="text"
@@ -49,7 +49,7 @@ export class LoginAnon extends React.Component {
 
 import { connect } from "react-redux";
 
-import { loginAnon } from "actions/auth";
+import { loginAnonUser } from "actions/auth";
 
 const mapStateToProps = (state) => {
   return {
@@ -59,8 +59,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  loginAnon(data) {
-    dispatch(loginAnon(data));
+  loginAnonUser(data) {
+    dispatch(loginAnonUser(data));
   },
 });
 

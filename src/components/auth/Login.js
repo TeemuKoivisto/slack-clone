@@ -3,8 +3,13 @@ import { browserHistory } from "react-router";
 
 export class Login extends React.Component {
 
-  handleChange(name, event) {
+  handleClick(name, event) {
     event.preventDefault();
+    // this.props.resetForm(name);
+  }
+
+  handleChange(name, event) {
+    // event.preventDefault();
     this.props.updateForm(name, event.target.value);
   }
 
@@ -24,6 +29,8 @@ export class Login extends React.Component {
     const { errors } = this.props.form;
     return (
       <form className="ui middle aligned center aligned grid" onSubmit={this.handleSubmit.bind(this)}>
+        <h2>Login with regular account</h2>
+        <p>Use admin@asdf.asdf & asdf or user@asdf.asdf & asdf</p>
         <div className="ui">
           <div className="ui large form">
             <div className="ui stacked segment">
@@ -57,7 +64,10 @@ export class Login extends React.Component {
             { loading ?
               <div className="ui blue active centered inline loader"></div>
                 :
-              <button className="ui fluid large blue submit button" type="submit">Log In</button>
+              <div>
+                <button className="ui fluid large blue submit button" type="submit">Log In</button>
+                <button className="ui fluid large blue submit button" onClick={this.handleClick.bind(this, "reset")}>Reset</button>
+              </div>
             }
           </div>
         </div>

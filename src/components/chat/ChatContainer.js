@@ -35,7 +35,7 @@ export class ChatContainer extends React.Component {
       const msg = this.props.form.values;
       msg.User = this.props.user._id;
       msg.authorNick = this.props.user.nick;
-      msg.Room = this.props.currentRoom._id;
+      msg.Room = this.props.currentRoomId;
       this.props.saveMessage(msg);
     }
   }
@@ -50,15 +50,21 @@ export class ChatContainer extends React.Component {
       this.props.joinRoom({
         _id: index
       })
+    } else if (name === "leaveRoom") {
+      this.props.leaveRoom({
+        _id: index
+      })
     }
     // this.props.getMessages();
   }
 
   render() {
-    const { currentRoom, rooms } = this.props;
-    const messages = rooms.find(room => room._id === currentRoom._id).messages;
-    // const messages = currentRoom.messages ? currentRoom.messages : [];
-    // console.log(currentRoom)
+    const { currentRoomId, rooms } = this.props;
+    const currentRoom = rooms.find(room => room._id === currentRoomId);
+    const { messages, users } = currentRoom;
+    // console.log(rooms)
+    // console.log(messages)
+    // console.log(currentRoom.users)
     // console.log(currentRoom._id === rooms[0]._id)
     return (
       <div>
@@ -70,14 +76,15 @@ export class ChatContainer extends React.Component {
             <div className="chat-rooms">
               <ul>
                 { rooms.map(room =>
-                  <li>
-                    <span key={room._id}
-                      className={ currentRoom._id === room._id ? "selected-room" : "unselected-room"}
+                  <li key={room._id}>
+                    <span
+                      className={ currentRoomId === room._id ? "selected-room" : "unselected-room"}
                       onClick={this.handleClick.bind(this, "selectRoom", room._id)}
                     >
                       { room.name }
                     </span>
                     <button onClick={this.handleClick.bind(this, "joinRoom", room._id)}>Join</button>
+                    <button onClick={this.handleClick.bind(this, "leaveRoom", room._id)}>Leave</button>
                   </li>
                 )}
               </ul>
@@ -101,9 +108,13 @@ export class ChatContainer extends React.Component {
             </div>
             <div className="chat-users">
               <ul>
-                <li>user 1</li>
-                <li>user 2</li>
-                <li>user 3</li>
+                { users.map(user =>
+                  <li key={user._id}>
+                    <span>
+                      { user.nick }
+                    </span>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -119,13 +130,13 @@ export class ChatContainer extends React.Component {
 
 import { connect } from "react-redux";
 import createForm from "react-form-validate/CreateForm";
-import { selectRoom, joinRoom } from "actions/room";
+import { selectRoom, joinRoom, leaveRoom } from "actions/room";
 import { getMessages, saveMessage } from "actions/message";
 
 const mapStateToProps = (state) => {
   return {
     user: state.get("auth").get("user").toJS(),
-    currentRoom: state.get("room").get("currentRoom").toJS(),
+    currentRoomId: state.get("room").get("currentRoomId"),
     rooms: state.get("room").get("rooms").toJS(),
   };
 };
@@ -142,6 +153,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   joinRoom(data) {
     dispatch(joinRoom(data));
+  },
+  leaveRoom(data) {
+    dispatch(leaveRoom(data));
   }
 });
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
+import Login from "components/auth/Login";
 import AnonLogin from "components/auth/AnonLogin";
 import GoogleOauth from "components/auth/GoogleOauth";
 
@@ -21,6 +22,7 @@ export default class FrontPage extends React.Component {
           <p>With the gayest functionality.</p>
         </section>
         <section>
+          <Login></Login>
           <AnonLogin></AnonLogin>
           <GoogleOauth></GoogleOauth>
         </section>
