@@ -74,7 +74,7 @@ export class ChatContainer extends React.Component {
       messages = currentRoom.messages;
       users = currentRoom.users;
     }
-    console.log(users)
+    // console.log(users)
     const { content } = this.props.form.values;
     return (
       <div>
