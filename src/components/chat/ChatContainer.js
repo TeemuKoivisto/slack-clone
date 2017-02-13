@@ -52,11 +52,15 @@ export class ChatContainer extends React.Component {
       }
     } else if (name === "joinRoom") {
       this.props.joinRoom({
-        _id: index
+        room: { 
+          _id: index 
+        }
       })
     } else if (name === "leaveRoom") {
       this.props.leaveRoom({
-        _id: index
+        room: { 
+          _id: index 
+        }
       })
     }
     // this.props.getMessages();
@@ -70,6 +74,7 @@ export class ChatContainer extends React.Component {
       messages = currentRoom.messages;
       users = currentRoom.users;
     }
+    console.log(users)
     const { content } = this.props.form.values;
     return (
       <div>
@@ -144,7 +149,7 @@ import { getMessages, saveMessage } from "actions/message";
 const mapStateToProps = (state) => {
   return {
     user: state.get("auth").get("user").toJS(),
-    currentRoomId: state.get("room").get("currentRoomId"),
+    currentRoomId: state.get("auth").get("currentRoomId"),
     rooms: state.get("room").get("rooms").toJS(),
   };
 };

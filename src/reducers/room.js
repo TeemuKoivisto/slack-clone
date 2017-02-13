@@ -2,21 +2,24 @@
 import { fromJS } from "immutable";
 
 const INITIAL_STATE = fromJS({
-  currentRoomId: null,
   // joinedRooms: [],
   rooms: [],
 });
 
+/**
+ * better immutable api
+ * 
+ * Should merge aka. replace duplicate values with the new value
+ * List.merge(["rooms"], rooms => [...rooms, fromJS(action.payload.room)])
+ */
+
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "ROOM_SELECT_ONE":
-      return state.set("currentRoomId", fromJS(action.payload._id));
     case "ROOM_GET_ONE_SUCCESS":
       action.payload.created = new Date(action.payload.created);
       return state.updateIn(["rooms"], rooms => rooms.map(room => {
         return room.get("_id") === action.payload._id ? fromJS(action.payload) : room;
       }))
-      .set("currentRoomId", fromJS(action.payload._id))
     case "ROOM_GET_ALL_SUCCESS":
       const roomsUpdated = action.payload.map(room => {
         room.created = new Date(room.created);
@@ -33,12 +36,11 @@ export default function (state = INITIAL_STATE, action) {
         rooms.map(room => {
           if (room.get("_id") === action.payload.room._id) {
             return room.updateIn(["users"], users => {
-              // searches for the index where the new messages should be inserted at
-              // to keep the dates in ascending order
-              // returns -1 if in last position
-              const index = users.findIndex(user => user.nick > action.payload.user.nick);
-              console.log("updating users" + index)
-              return index !== -1 ? users.insert(index, fromJS(action.payload.user)) : users.push(fromJS(action.payload.user));
+              const foundUser = users.find(user => user.get("_id") === action.payload.user._id);
+              if (!foundUser) {
+                return users.push(fromJS(action.payload.user));
+              }
+              return users;
             });
           }
           return room;
@@ -48,22 +50,18 @@ export default function (state = INITIAL_STATE, action) {
       return state.updateIn(["rooms"], rooms =>
         rooms.map(room => {
           if (room.get("_id") === action.payload.room._id) {
-            return room.updateIn(["users"], users => {
-              return users.filter(user => {
+            return room.updateIn(["users"], users =>
+              users.filter(user => {
                 if (user.get("_id") !== action.payload.user._id) {
                   return user;
                 }
+                console.log("filtering out", user)
               })
-            });
+            )
           }
           return room;
         })
-      ).updateIn(["currentRoomId"], currentRoomId => {
-        if (action.payload.room._id === currentRoomId) {
-          return undefined;
-        }
-        return currentRoomId;
-      })
+      );
     case "ROOM_LEAVE_ALL_SUCCESS":
       return state.updateIn(["rooms"], rooms =>
         rooms.map(room =>
