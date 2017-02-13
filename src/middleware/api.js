@@ -12,7 +12,7 @@ export const createRequest = (action, store) => {
 
   return axios({
     method: request.method,
-    url: process.env.API_URL + request.url,
+    url: process.env.AUTH_SERVER_URL + request.url,
     data: request.data,
     headers: {
       "X-Access-Token": token,
