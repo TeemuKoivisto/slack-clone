@@ -19,12 +19,9 @@ export default class FrontPage extends React.Component {
       <div id="front-page">
         <section>
           <h1>Craziest slack clone!</h1>
-          <p>With the gayest functionality.</p>
+          <p>With the silliest functionality.</p>
         </section>
         <section>
-          <Login></Login>
-          <AnonLogin></AnonLogin>
-          <GoogleOauth></GoogleOauth>
         </section>
       </div>
     );

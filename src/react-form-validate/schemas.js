@@ -26,7 +26,7 @@ const validations = {
   userLogin: {
     type: "object",
     properties: {
-      email: { type: "string", pattern: "email", default: "eef", error: "Email wasn't the correct type." },
+      email: { type: "string", pattern: "email", default: "", error: "Email wasn't the correct type." },
       password: { type: "string", minLength: 1, default: "", error: "Password can't be empty."  },
     }
   },

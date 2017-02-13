@@ -63,3 +63,14 @@ export const logout = () => (
     type: LOGOUT_USER,
   }
 )
+
+export const logoutAnon = (data) => (
+  {
+    type: "LOGOUT_ANON_USER",
+    payload: {
+      socketio: {
+        data,
+      }
+    }
+  }
+)

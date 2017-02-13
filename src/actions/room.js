@@ -14,7 +14,7 @@ export const getRooms = () => (
   }
 );
 
-export const selectRoom = (data) => (
+export const getRoom = (data) => (
   {
     type: ROOM_GET_ONE,
     payload: {
@@ -22,6 +22,13 @@ export const selectRoom = (data) => (
         data,
       }
     }
+  }
+);
+
+export const selectRoom = (data) => (
+  {
+    type: "ROOM_SELECT_ONE",
+    payload: data,
   }
 );
 

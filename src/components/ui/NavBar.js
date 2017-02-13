@@ -10,7 +10,11 @@ export class NavBar extends React.Component {
   }
 
   handleLogout() {
-    this.props.logout();
+    if (this.props.user.role === "anon") {
+      this.props.logoutAnon(this.props.user);
+    } else {
+      this.props.logout();
+    }
     browserHistory.push("/login");
   }
 
@@ -58,10 +62,41 @@ export class NavBar extends React.Component {
   renderUserNav() {
     const { user } = this.props;
     return (
-      <div className="ui horizontal pointing menu">
-        <Link className="item" to="/">FrontPage</Link>
-        <Link className="item" to="/user/me">{ user.firstname }</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
+      <div className="navbar navbar-inverse navbar-fixed-top pohina-pad" id="navbar">
+        <div className="container">
+          <div className="navbar-header">
+            <Link to="/">
+              <img className="pohina-navbar-logo" src="img/elo_logo.png" />
+            </Link>
+            <button className="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+              <span className="icon-bar"></span>
+            </button>
+          </div>
+          <div className="navbar-collapse collapse" id="navbar-main">
+            <ul className="nav navbar-nav">
+              <li>
+                <Link to="/">Frontpage</Link>
+              </li>
+
+              <li>
+                <Link to="/user/me">{ user.nick }</Link>
+              </li>
+
+              <li>
+                <Link to="/chat">Chat</Link>
+              </li>
+            </ul>
+
+            <ul className="nav navbar-nav navbar-right">
+              <li>
+                <a className="item" onClick={ this.handleLogout }>Logout</a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
       </div>
     );
   }
@@ -173,7 +208,6 @@ export class NavBar extends React.Component {
   }
 
   render() {
-    console.log(this.props.user)
     const loggedIn = this.props.user.role !== undefined;
     return (
       <div id="nav">
@@ -185,7 +219,7 @@ export class NavBar extends React.Component {
 
 import { connect } from "react-redux";
 
-import { logout } from "actions/auth";
+import { logout, logoutAnon } from "actions/auth";
 import { disconnectSocket } from "actions/socket";
 
 const mapStateToProps = (state) => {
@@ -197,6 +231,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   logout() {
+    dispatch(disconnectSocket());
+    dispatch(logout());
+  },
+  logoutAnon(data) {
+    dispatch(logoutAnon(data));
     dispatch(disconnectSocket());
     dispatch(logout());
   },

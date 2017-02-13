@@ -65,10 +65,16 @@ class Validate {
   createForm(formname, schema) {
     const form = this.getForm(formname);
     if (!form) {
-      const values = Core.createForm(formname, schema);
+      const values = Core.createForm(schema);
       this.state = reducer(this.state, createForm(formname, schema, values));
     }
     return this.getForm(formname);
+  }
+
+  updateForm(formname, field, value) {
+    const form = this.getForm(formname);
+    const errors = Core.validateField(form.values, form.schema, field, value);
+    this._reduce(formname, updateForm(formname, field, value, errors));
   }
 
   replaceForm(formname, newValues) {
@@ -79,10 +85,12 @@ class Validate {
     // console.log(this.getForm(formname));
   }
 
-  updateForm(formname, field, value) {
+  resetForm(formname) {
     const form = this.getForm(formname);
-    const errors = Core.validateField(form.values, form.schema, field, value);
-    this._reduce(formname, updateForm(formname, field, value, errors));
+    const newValues = Core.createForm(form.schema);
+    // console.log(newValues);
+    this._reduce(formname, replaceForm(formname, newValues, {}));
+    // console.log(this.getForm(formname));
   }
 
   isFormValid(formname) {

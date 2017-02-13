@@ -25,8 +25,9 @@ export default function connect(formOptions) {
         this.formProps = {
           form,
           isFormValid: () => Validate.isFormValid(formOptions.name),
-          updateForm: (field, value) => Validate.updateForm(formOptions.name, field, value),
           getForm: () => Validate.updateForm(formOptions.name),
+          updateForm: (field, value) => Validate.updateForm(formOptions.name, field, value),
+          resetForm: () => Validate.resetForm(formOptions.name),
         }
       }
 

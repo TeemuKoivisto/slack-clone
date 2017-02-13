@@ -16,7 +16,7 @@ export class UserShow extends React.Component {
             <div className="ui list">
               <div>
                 <i className="user icon"></i>
-                <input disabled="true" value={ `${User.firstname} ${User.lastname}` }></input>
+                <input disabled="true" value={ `${User.firstname || ""} ${User.lastname || ""}` }></input>
                 <label>Fullname</label>
               </div>
               <div>

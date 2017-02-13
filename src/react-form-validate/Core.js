@@ -10,7 +10,7 @@ class ValidateCore {
     this.schemas = schemas;
   }
 
-  createForm(formname, schema) {
+  createForm(schema) {
     const values = {};
     if (!this.schemas[schema]) throw new TypeError(`No schema '${schema}' found.`);
     const properties = _.get(this.schemas, `${schema}.properties`) || {};

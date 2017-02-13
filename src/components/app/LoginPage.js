@@ -11,7 +11,7 @@ export default class LoginPage extends React.Component {
         <section>
           <Login></Login>
           <AnonLogin></AnonLogin>
-          <GoogleOauth></GoogleOauth>
+          {/*<GoogleOauth></GoogleOauth>*/}
         </section>
       </div>
     );

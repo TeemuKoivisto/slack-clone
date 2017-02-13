@@ -3,11 +3,14 @@ import { fromJS } from "immutable";
 
 const INITIAL_STATE = fromJS({
   currentRoomId: null,
+  // joinedRooms: [],
   rooms: [],
 });
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
+    case "ROOM_SELECT_ONE":
+      return state.set("currentRoomId", fromJS(action.payload._id));
     case "ROOM_GET_ONE_SUCCESS":
       action.payload.created = new Date(action.payload.created);
       return state.updateIn(["rooms"], rooms => rooms.map(room => {
@@ -50,14 +53,29 @@ export default function (state = INITIAL_STATE, action) {
                 if (user.get("_id") !== action.payload.user._id) {
                   return user;
                 }
-                console.log("updating users", user)
-                
               })
             });
           }
           return room;
         })
-      );
+      ).updateIn(["currentRoomId"], currentRoomId => {
+        if (action.payload.room._id === currentRoomId) {
+          return undefined;
+        }
+        return currentRoomId;
+      })
+    case "ROOM_LEAVE_ALL_SUCCESS":
+      return state.updateIn(["rooms"], rooms =>
+        rooms.map(room =>
+          room.updateIn(["users"], users =>
+            users.filter(user => {
+              if (user.get("_id") !== action.payload.user._id) {
+                return user;
+              }
+            })
+          )
+        )
+      )
     case "MESSAGE_SAVE_ONE_SUCCESS":
       action.payload.created = new Date(action.payload.created);
       return state.updateIn(["rooms"], rooms =>
